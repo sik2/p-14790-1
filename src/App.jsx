@@ -15,6 +15,11 @@ function App() {
         setTodos([...todos, form.todo.value])
     }
 
+    const deleteTodo = (selectedIndex) => {
+        const nextState = todos.filter((item, i) => i !== selectedIndex)
+        setTodos(nextState)
+    }
+
     return (
         <>
             <form onSubmit={handleOnSubmit}>
@@ -23,7 +28,10 @@ function App() {
             </form>
             <ul>
                 {todos.map((item, i) => (
-                    <li key={i}>{item}</li>
+                    <li key={i}>
+                        <span>{item}</span>
+                        <button onClick={() => deleteTodo(i)}>X</button>
+                    </li>
                 ))}
             </ul>
         </>
