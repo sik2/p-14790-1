@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
@@ -11,12 +11,18 @@ function App() {
             .then((res) => setTodos(res.todos))
     }, [])
 
-    let lastId = useRef(4)
-
     const addTodo = (todo) => {
-        const todoItem = { id: lastId.current, todo, completed: false }
-        setTodos([...todos, todoItem])
-        lastId.current++
+        fetch('https://dummyjson.com/todos/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                todo,
+                completed: false,
+                userId: 5,
+            }),
+        })
+            .then((res) => res.json())
+            .then(console.log)
     }
 
     const deleteTodo = (selectedId) => {
