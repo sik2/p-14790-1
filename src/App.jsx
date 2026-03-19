@@ -5,10 +5,14 @@ import TodoList from './components/TodoList'
 function App() {
     const [todos, setTodos] = useState([])
 
-    useEffect(() => {
+    const fetchTodos = () => {
         fetch('https://dummyjson.com/todos')
             .then((res) => res.json())
             .then((res) => setTodos(res.todos))
+    }
+
+    useEffect(() => {
+        fetchTodos()
     }, [])
 
     const addTodo = (todo) => {
@@ -22,7 +26,9 @@ function App() {
             }),
         })
             .then((res) => res.json())
-            .then(console.log)
+            .then(() => {
+                fetchTodos()
+            })
     }
 
     const deleteTodo = (selectedId) => {
@@ -30,7 +36,9 @@ function App() {
             method: 'DELETE',
         })
             .then((res) => res.json())
-            .then(console.log)
+            .then(() => {
+                fetchTodos()
+            })
     }
 
     const toggleTodo = (selectedId) => {
@@ -44,7 +52,9 @@ function App() {
             }),
         })
             .then((res) => res.json())
-            .then(console.log)
+            .then(() => {
+                fetchTodos()
+            })
     }
 
     return (
