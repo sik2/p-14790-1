@@ -4,12 +4,16 @@ import { useParams } from 'react-router-dom'
 function TodoDetail() {
     const { id } = useParams()
     const [todo, setTodo] = useState({})
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         fetch(`https://dummyjson.com/todos/${id}`)
             .then((res) => res.json())
             .then((res) => setTodo(res))
-    }, [])
+            .finally(() => setIsLoading(false))
+    }, [id])
+
+    if (isLoading) return <>로딩중...</>
 
     return (
         <>
