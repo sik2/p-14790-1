@@ -1,67 +1,15 @@
-import { useEffect, useState } from 'react'
-import TodoForm from './components/TodoForm'
-import TodoList from './components/TodoList'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Main from './pages/Main'
+import TodoDetail from './pages/TodoDetail'
 
 function App() {
-    const [todos, setTodos] = useState([])
-
-    const fetchTodos = () => {
-        fetch('https://dummyjson.com/todos')
-            .then((res) => res.json())
-            .then((res) => setTodos(res.todos))
-    }
-
-    useEffect(() => {
-        fetchTodos()
-    }, [])
-
-    const addTodo = (todo) => {
-        fetch('https://dummyjson.com/todos/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                todo,
-                completed: false,
-                userId: 5,
-            }),
-        })
-            .then((res) => res.json())
-            .then(() => {
-                fetchTodos()
-            })
-    }
-
-    const deleteTodo = (selectedId) => {
-        fetch(`https://dummyjson.com/todos/${selectedId}`, {
-            method: 'DELETE',
-        })
-            .then((res) => res.json())
-            .then(() => {
-                fetchTodos()
-            })
-    }
-
-    const toggleTodo = (selectedId) => {
-        const todoItem = todos.find((item) => item.id == selectedId)
-
-        fetch(`https://dummyjson.com/todos/${selectedId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                completed: !todoItem.completed,
-            }),
-        })
-            .then((res) => res.json())
-            .then(() => {
-                fetchTodos()
-            })
-    }
-
     return (
-        <>
-            <TodoForm addTodo={addTodo} />
-            <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route index element={<Main />}></Route>
+                <Route path="todos/:id" element={<TodoDetail />}></Route>
+            </Routes>
+        </BrowserRouter>
     )
 }
 
