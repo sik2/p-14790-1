@@ -10,16 +10,9 @@ function App() {
 
     let lastId = useRef(4)
 
-    const handleOnSubmit = (e) => {
-        e.preventDefault()
-        const form = e.target
-
-        if (form.todo.value.length == 0) {
-            alert('할일을 입력해주세요.')
-            return
-        }
-
-        setTodos([...todos, { id: lastId.current, todo: form.todo.value, completed: false }])
+    const addTodo = (todo) => {
+        const todoItem = { id: lastId.current, todo, completed: false }
+        setTodos([...todos, todoItem])
         lastId.current++
     }
 
@@ -35,7 +28,7 @@ function App() {
 
     return (
         <>
-            <TodoForm handleOnSubmit={handleOnSubmit} />
+            <TodoForm addTodo={addTodo} />
             <ul>
                 {todos.map((item) => (
                     <li key={item.id} style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>
