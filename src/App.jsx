@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import TodoForm from './components/TodoForm'
 
 function App() {
     const [todos, setTodos] = useState([
@@ -34,10 +35,7 @@ function App() {
 
     return (
         <>
-            <form onSubmit={handleOnSubmit}>
-                <input type="text" name="todo" />
-                <button>등록</button>
-            </form>
+            <TodoForm handleOnSubmit={handleOnSubmit} />
             <ul>
                 {todos.map((item) => (
                     <li key={item.id} style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>
