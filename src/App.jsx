@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import TodoForm from './components/TodoForm'
+import TodoList from './components/TodoList'
 
 function App() {
     const [todos, setTodos] = useState([
@@ -29,17 +30,7 @@ function App() {
     return (
         <>
             <TodoForm addTodo={addTodo} />
-            <ul>
-                {todos.map((item) => (
-                    <li key={item.id} style={{ textDecoration: item.completed ? 'line-through' : 'none' }}>
-                        <input type="checkbox" onChange={() => toggleTodo(item.id)} checked={item.completed} />
-                        <span>
-                            {item.id} / {item.todo}
-                        </span>
-                        <button onClick={() => deleteTodo(item.id)}>X</button>
-                    </li>
-                ))}
-            </ul>
+            <TodoList todos={todos} deleteTodo={deleteTodo} toggleTodo={toggleTodo} />
         </>
     )
 }
