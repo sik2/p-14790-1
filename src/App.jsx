@@ -1,13 +1,15 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TodoForm from './components/TodoForm'
 import TodoList from './components/TodoList'
 
 function App() {
-    const [todos, setTodos] = useState([
-        { id: 1, todo: '할일1', completed: true },
-        { id: 2, todo: '할일2', completed: false },
-        { id: 3, todo: '할일3', completed: false },
-    ])
+    const [todos, setTodos] = useState([])
+
+    useEffect(() => {
+        fetch('https://dummyjson.com/todos')
+            .then((res) => res.json())
+            .then((res) => setTodos(res.todos))
+    }, [])
 
     let lastId = useRef(4)
 
